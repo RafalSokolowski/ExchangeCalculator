@@ -11,91 +11,143 @@
 
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.control.TitledPane?>
+
 <GridPane fx:controller="pl.rav.Controller"
           xmlns:fx="http://javafx.com/fxml"
           alignment="TOP_CENTER"
           hgap="20" vgap="20">
-    <!-- style="-fx-border-color: #1b42ff; -fx-border-width: 3; -fx-border-style: dashed"> -->
-    <!-- gridLinesVisible="true" -->
 
     <!--margines 10 pixels -->
-    <padding>
-        <Insets top="10" bottom="10" right="10" left="10"></Insets>
-    </padding>
+    <!--    <padding>-->
+    <!--        <Insets top="10" right="10" left="10"/>-->
+    <!--    </padding>-->
 
-    <HBox spacing="5" alignment="CENTER" GridPane.rowIndex="1">
-        <Label text="EUR = " GridPane.columnIndex="0"></Label>
-        <TextField fx:id="formEURtoPLN" GridPane.columnIndex="1" prefWidth="50" disable="true"></TextField>
-        <Label text="PLN   " GridPane.columnIndex="2"></Label>
-        <Label text="USD = " GridPane.columnIndex="3"></Label>
-        <TextField  fx:id="formUSDtoPLN" GridPane.columnIndex="4" prefWidth="50" disable="true"></TextField>
-        <Label text="PLN   " GridPane.columnIndex="5"></Label>
-        <Label text="CHF = " GridPane.columnIndex="6"></Label>
-        <TextField  fx:id="formCHFtoPLN" GridPane.columnIndex="7" prefWidth="50" disable="true"></TextField>
-        <Label text="PLN" GridPane.columnIndex="8"></Label>
+    <TitledPane text="Chose to update the key" GridPane.rowIndex="1" expanded="false">
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <TextField fx:id="keyValue" text="ddc4f7e8f8de3fbda73fb45cfdb71c81" alignment="CENTER"
+                       GridPane.columnIndex="1"
+                       prefWidth="280" style="-fx-color-label-visible: false"/>
+            <Button fx:id="keyChange" text="Change key" GridPane.columnIndex="2" prefWidth="100" onAction="#keyChange"/>
+        </HBox>
+    </TitledPane>
+
+    <HBox spacing="5" alignment="CENTER" GridPane.rowIndex="2">
+        <Label text="EUR = " GridPane.columnIndex="0"/>
+        <TextField fx:id="formEURtoPLN" GridPane.columnIndex="1" prefWidth="50" disable="true"/>
+        <Label text="PLN   " GridPane.columnIndex="2"/>
+        <Label text="USD = " GridPane.columnIndex="3"/>
+        <TextField fx:id="formUSDtoPLN" GridPane.columnIndex="4" prefWidth="50" disable="true"/>
+        <Label text="PLN   " GridPane.columnIndex="5"/>
+        <Label text="CHF = " GridPane.columnIndex="6"/>
+        <TextField fx:id="formCHFtoPLN" GridPane.columnIndex="7" prefWidth="50" disable="true"/>
+        <Label text="PLN" GridPane.columnIndex="8"/>
     </HBox>
 
-    <HBox  alignment="CENTER" GridPane.rowIndex="2">
+    <VBox spacing="25" GridPane.rowIndex="3"
+          style="-fx-border-color: darkblue; -fx-border-width: 2; -fx-border-style: solid; -fx-background-color: #e2e2e2;
+                 -fx-border-radius: 20 0 20 0; -fx-background-radius: 20 0 20 0, 0 20 0 20;">
+        <padding>
+            <Insets top="5" bottom="5" left="5" right="5"/>
+        </padding>
+
+        <!-- in future functionalities -->
+        <!-- <DatePicker GridPane.rowIndex="1" GridPane.halignment="LEFT" prefWidth="100"/> -->
+
+        <HBox alignment="CENTER" GridPane.rowIndex="1">
+
+            <ImageView>
+                <Image url="@/pl/rav/currency-311743_640.png" preserveRatio="true" requestedHeight="80"/>
+            </ImageView>
+        </HBox>
+
+        <HBox alignment="CENTER" GridPane.rowIndex="2">
+            <padding>
+                <Insets top="-Infinity" bottom="-Infinity"/>
+            </padding>
+            <Label text="Select currency pairs to convert:">
+                <font>
+                    <Font name="Calibri bold" size="15"/>
+                </font>
+            </Label>
+        </HBox>
+
+        <HBox alignment="CENTER" GridPane.rowIndex="3">
+
+            <Label text="( for more info "/>
+            <Hyperlink text="click here" textFill="darkblue" underline="true" onAction="#openFile"/>
+            <Label text=" )"/>
+        </HBox>
+
+        <HBox spacing="5" alignment="CENTER" GridPane.rowIndex="4" style="-fx-text-fill: black">
+            <ComboBox fx:id="currencyFrom" GridPane.rowIndex="2" GridPane.columnIndex="0">
+                <items>
+                    <FXCollections fx:factory="observableArrayList"/>
+                </items>
+                <value>
+                    <String fx:value="EUR"/>
+                </value>
+            </ComboBox>
+
+            <TextField fx:id="valueConverted" disable="true" prefWidth="80" style="-fx-background-color: white">
+                <font>
+                    <Font name="Calibri bold" size="15"/>
+                </font>
+            </TextField>
+
+            <ComboBox fx:id="currencyTo" GridPane.rowIndex="2" GridPane.columnIndex="0">
+                <items>
+                    <FXCollections fx:factory="observableArrayList"/>
+                </items>
+                <value>
+                    <String fx:value="PLN"/>
+                </value>
+            </ComboBox>
+        </HBox>
+
+        <HBox spacing="10" alignment="CENTER" GridPane.rowIndex="6">
+            <Button fx:id="convertButton" text="Convert" prefWidth="90" GridPane.columnIndex="0"
+                    onAction="#convertButtonClicked"/>
+        </HBox>
+
+    </VBox>
+
+
+    <!--    <VBox alignment="CENTER_LEFT" GridPane.rowIndex="5">-->
+    <!--        <Label text="Internal messages:" textFill="gray"/>-->
+    <!--        &lt;!&ndash;        <CheckBox &ndash;&gt;-->
+    <!--        <TextArea fx:id="messageBox" GridPane.rowIndex="8" prefWidth="390" prefHeight="60" disable="true"-->
+    <!--                  wrapText="true"/>-->
+    <!--    </VBox>-->
+
+    <TitledPane text="Internal messages:" alignment="CENTER_LEFT" GridPane.rowIndex="5" expanded="false">
+        <TextArea fx:id="messageBox" GridPane.rowIndex="8" prefWidth="390" prefHeight="60" disable="true"
+                  wrapText="true"/>
+    </TitledPane>
+
+    <HBox alignment="CENTER_LEFT" GridPane.rowIndex="6">
         <ImageView>
-            <Image url="@/pl/rav/currency-311743_640.png" preserveRatio="true" requestedHeight="80"></Image>
+            <Image url="@/pl/rav/fixer_money.png" preserveRatio="true" requestedHeight="40"/>
         </ImageView>
-    </HBox>
+        <Label text="  Powered by FIXER.IO  "/>
 
-
-
-    <HBox alignment="CENTER" GridPane.rowIndex="3">
-        <Label text="Select currency pairs to convert:" GridPane.rowIndex="1">
+        <Hyperlink text="https://fixer.io/" underline="true" textFill="darkblue" onAction="#openURL">
             <font>
-                <Font name="Calibri bold" size="14"></Font>
+                <Font name="Calibri bold" size="15"/>
             </font>
-        </Label>
-
+        </Hyperlink>
     </HBox>
 
-    <HBox spacing="5" alignment="CENTER" GridPane.rowIndex="4">
-        <ComboBox fx:id="currencyFrom" GridPane.rowIndex="2" GridPane.columnIndex="0">
-            <items>
-                <FXCollections fx:factory="observableArrayList">
-                    <String fx:value="EUR"/>
-                    <String fx:value="USD"/>
-                    <String fx:value="PLN"/>
-                    <String fx:value="CHF"/>
-                    <String fx:value="GBP"/>
-                    <String fx:value="JPY"/>
-                    <String fx:value="HUF"/>
-                    <String fx:value="BTC"/>
-                </FXCollections>
-            </items>
-            <value>
-                <String fx:value="EUR"/>
-            </value>
-        </ComboBox>
-
-        <TextField fx:id="valueConverted" disable="true" prefWidth="50"></TextField>
-
-        <ComboBox fx:id="currencyTo" GridPane.rowIndex="2" GridPane.columnIndex="0">
-            <items>
-                <FXCollections fx:factory="observableArrayList">
-                    <String fx:value="EUR"/>
-                    <String fx:value="USD"/>
-                    <String fx:value="PLN"/>
-                    <String fx:value="CHF"/>
-                    <String fx:value="GBP"/>
-                    <String fx:value="JPY"/>
-                    <String fx:value="HUF"/>
-                    <String fx:value="BTC"/>
-                </FXCollections>
-            </items>
-            <value>
-                <String fx:value="PLN"/>
-            </value>
-        </ComboBox>
-    </HBox>
-
-    <HBox spacing="10" alignment="CENTER" GridPane.rowIndex="5">
-        <Button fx:id="convertButton" text="Convert" prefWidth="90" GridPane.columnIndex="0" onAction="#convertButtonClicked"></Button>
-        <!--        <Label text="- press to update rates with fixer.io" GridPane.columnIndex="1"></Label>-->
-    </HBox>
-
+    <!-- in future functionalities -->
+    <ColorPicker GridPane.halignment="RIGHT" GridPane.rowIndex="6" prefWidth="29">
+        <value>
+            <Color red="1.0"/>
+        </value>
+    </ColorPicker>
 
 </GridPane>

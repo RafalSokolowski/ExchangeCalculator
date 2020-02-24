@@ -16,7 +16,7 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("fileFXML.fxml"));
 
         stage.setTitle("FX converter");
-        stage.setScene(new Scene(root, 500, 350));
+        stage.setScene(new Scene(root, 450, 600)); //jak automatycznie dopasować rozmiar do ilości elementów / czy da się skalować ?
         stage.show();
     }
 
