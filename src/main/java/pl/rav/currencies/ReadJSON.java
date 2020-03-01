@@ -39,24 +39,28 @@ public class ReadJSON {
         Optional<URL> url = connectToURL();
         if (connectToURL().isEmpty()) {
             Util.logger.error("URL is empty... verify the data");
-            return Optional.empty(); // czy może lepiej tu throw exception ?
+            return Optional.empty(); // czy moÅ¼e lepiej tu throw exception ?
+            // Zrobił bym exception
         }
         try {
-            Scanner scanner = new Scanner(url.get().openStream()); // dlaczego tu podświetla get() ? ... przecież parę linijek wyżej jest sprawdzenie isEmpty()
+            Scanner scanner = new Scanner(url.get().openStream()); // dlaczego tu podÅ›wietla get() ? ... przecieÅ¼ parÄ™ linijek wyÅ¼ej jest sprawdzenie isEmpty()
+//            to jest kwestia jdk i interpreteraz, ja jestem teraz na 10 i mi np. nic nie podkreśla 
+            
             StringBuilder stringBuilderJSON = new StringBuilder();
             while (scanner.hasNext()) stringBuilderJSON.append(scanner.next());
             return Optional.of(stringBuilderJSON.toString());
 
         } catch (IOException e) {
             Util.logger.error("cannot open stream with data from fixer.io (" + e.getMessage() + ")");
-            return Optional.empty(); // czy może lepiej tu throw exception ?
+            return Optional.empty(); // czy moÅ¼e lepiej tu throw exception ?
+         // Zrobił bym exception
         }
     }
 
     public Map<String, Double> collectNestedMapFromJson() {
         Optional<String> jsonString = readJsonToString();
         if (jsonString.isEmpty())
-            throw new IllegalArgumentException("Json was not read / decoded... check the data"); // czy może tu tylko return false;
+            throw new IllegalArgumentException("Json was not read / decoded... check the data"); // czy moÅ¼e tu tylko return false; JEST OKEJ
 
         Util.logger.info(Util.ANSI_BLUE + "Received JSON: " + Util.ANSI_RESET + jsonString.get());
 
@@ -67,7 +71,8 @@ public class ReadJSON {
             JsonNode jsonTreeRates = jsonNode.get("rates");
             Util.logger.info(Util.ANSI_BLUE + "Read nested JSON rates: " + Util.ANSI_RESET + jsonTreeRates);
 
-            currencies.putAll(objectMapper.treeToValue(jsonTreeRates, Map.class)); // unchecked cast from Map to Map<String, Double> - jak to rozwiązać ?
+            currencies.putAll(objectMapper.treeToValue(jsonTreeRates, Map.class)); // unchecked cast from Map to Map<String, Double> - jak to rozwiÄ…zaÄ‡ ?
+            // zamiast cas możesz rozwiąza
             return currencies;
 
         } catch (JsonProcessingException e) {

@@ -17,6 +17,11 @@ public class Main extends Application {
 
         stage.setTitle("FX converter");
         stage.setScene(new Scene(root, 450, 600)); //jak automatycznie dopasować rozmiar do ilości elementów / czy da się skalować ?
+        
+        
+        // Mozna trzeba skorzystac z metody sizeToScene()
+        
+        
         stage.show();
     }
 

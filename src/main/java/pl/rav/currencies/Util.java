@@ -36,6 +36,8 @@ public class Util {
 //    public static final int INITIAL_REQUESTS_MADE = 260;
 //    public static final int MONTHLY_LIMIT = 1000;
 
+    
+    // o Panie jeszcze nie widziałęm takiej deklaracji skrótów, myślę, że mogłoby to by 
     public static final List<String> CURRENCIES = Arrays.asList(
             "AED",
             "AFN",

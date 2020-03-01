@@ -11,9 +11,21 @@ import pl.rav.currencies.Util;
 
 import java.io.File;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Controller {
 
+/*
+ * Ogolen uwagi: gneralnie bardzo ładny kod, dobry podział wewnatrz klasowy na funkcje które są jednoznaczne, brakuje mi tutaj podizału MVC :/ nie jest on widoczny, bo praktycnzie go nie ma. 
+ * w JavaFX moc Frameworka polega na MVC, Z klasą util sa jakies problemy, bo jest przygotowana w taki spsob ze osoba która wspiera kod, musi sobie sama reorganizowac importy. sprawia wrazenie ze brakuje jakiegos elementu
+ * z którego korzystałes u siebie lokalnie. build path ? Generalnie oceniajac krytycznie dalbym 9/10 Calosc dziala bardzo fajnie, MVC jest wazny i stad taka niska nota! :D
+ * Pozdrawiam ! 
+ * 
+ * 
+ */
+	
+	
     @FXML
     private TextField formEURtoPLN;
     @FXML
@@ -51,6 +63,13 @@ public class Controller {
         currencyFrom.getItems().addAll(Util.CURRENCIES); // nie rozumiem tego warninga :(
         currencyTo.getItems().addAll(Util.CURRENCIES);   // nie rozumiem tego warninga :(
 
+        /*
+         * Możesz czytać Objects w Collection<?> taki sam sposób jak z Collection. 
+         * Ale nie możesz dodać Objects do Collection<?>(kompilator zabrania tego), podczas gdy do Collection możesz.
+         * Jeżeli po wydaniu Java 5 kompilator przetłumaczył każdy Collectiondo Collection<?>, 
+         * a następnie kod napisany wcześniej nie byłoby już skompilować, a tym samym zniszczy 
+         * kompatybilność wsteczną.
+         */
 
     }
 
@@ -97,9 +116,14 @@ public class Controller {
     @FXML
     public void openURL() {
         try {
-            java.awt.Desktop.getDesktop().browse(java.net.URI.create("https://fixer.io/documentation")); // zerżnięte z StackOF :( ... jak to można w FX ładnie ?
+            java.awt.Desktop.getDesktop().browse(java.net.URI.create("https://fixer.io/documentation")); // zerÅ¼niÄ™te z StackOF :( ... jak to moÅ¼na w FX Å‚adnie ?
             setMessagesToJavaFX("API documentation was opened in your default web-browser... navigate there for more info", Util.LogType.INFO, "openURL");
         } catch (Exception e) {
+        	
+        	// Ja bym loggowaw ten sposób, a Logger utworzył na wstewpie kazdej klasy, tak jak Ty zrobiłes każdy contribbutor będzie musiał sam sobie importowac lib. 
+//        	Logger log = Logger.getLogger(getClass().getName());
+//        	log.log(Level.INFO, "Can not open fixer.io :/ (" + e.getMessage() + ")");
+        	
             Util.logger.error("Can not open fixer.io :/ (" + e.getMessage() + ")");
             setMessagesToJavaFX("API documentation was not opened... check internet connection", Util.LogType.ERROR, "openURL");
         }
@@ -108,7 +132,7 @@ public class Controller {
     @FXML
     public void openFile() {
         try {
-            java.awt.Desktop.getDesktop().open(new File("src/main/resources/pl/rav/type_of_currencies.txt")); // zerżnięte z StackOF :( ... jak to można w FX ładnie ?
+            java.awt.Desktop.getDesktop().open(new File("src/main/resources/pl/rav/type_of_currencies.txt")); // zerÅ¼niÄ™te z StackOF :( ... jak to moÅ¼na w FX Å‚adnie ?
             setMessagesToJavaFX("File was opened in txt format, check the \"type_of_currencies.txt\"", Util.LogType.INFO, "openFile");
         } catch (Exception e) {
             setMessagesToJavaFX("File was not opened... something wrong with the path", Util.LogType.ERROR, e, "openFile");
@@ -126,7 +150,7 @@ public class Controller {
         }
     }
 
-    // nie wiem jak bezpośrednio użyć log4j2 do przekazywania info do TextArea w JavaFX (pewnie jakaś konfiguracja log4j2.xml ?)
+    // nie wiem jak bezpoÅ›rednio uÅ¼yÄ‡ log4j2 do przekazywania info do TextArea w JavaFX (pewnie jakaÅ› konfiguracja log4j2.xml ?)
     private void setMessagesToJavaFX(String messageToPresent, Util.LogType typeOfMessage, Exception exception, String methodName) {
         messageBox.setText("");
         if ("info".equalsIgnoreCase(typeOfMessage.get())) {
